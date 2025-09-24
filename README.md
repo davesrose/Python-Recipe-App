@@ -1,0 +1,1 @@
+I will be creating a web app that stores recipes with MySQL.  Either adding a link to your existing NYT Cooking subscription, or pasting ingredients or steps in a text areas.  Full Development will also have an export to PDF with table of contents
