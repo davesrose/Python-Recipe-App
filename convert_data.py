@@ -27,16 +27,5 @@ class ConvertData:
         }
         for key in fraction_codes:
             text = text.replace(key, fraction_codes[key])
-        """
-            Converts a Unicode string with accented characters to its ASCII equivalent.
-            Accents are removed, and characters not representable in ASCII are ignored.
-            """
-        # Normalize the string to NFD (Canonical Decomposition) form,
-        # which separates base characters from diacritical marks.
-        normalized_text = unicodedata.normalize('NFD', text)
 
-        # Encode to ASCII, ignoring characters that cannot be encoded.
-        # This effectively removes the diacritical marks and other non-ASCII characters.
-        ascii_text = normalized_text.encode('ascii', 'ignore').decode('utf-8')
-
-        return ascii_text
+        return text
