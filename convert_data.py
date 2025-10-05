@@ -26,6 +26,9 @@ class ConvertData:
             "\u2189": "0/3",
         }
         for key in fraction_codes:
-            text = text.replace(key, fraction_codes[key])
+            if key == text[1] or key == text[2]:
+                text = text.replace(key, " " + fraction_codes[key])
+            else:
+                text = text.replace(key, fraction_codes[key])
 
         return text

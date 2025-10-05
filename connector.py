@@ -1,7 +1,7 @@
 import os
 import dotenv
 import mysql.connector
-from enums import NYT_Scrapper
+import json
 
 dotenv.load_dotenv()
 mysql_user = os.getenv("MYSQL_USER")
@@ -22,16 +22,22 @@ class Connector:
             print(f"Error: {err}")
 
     def post_nyt_recipe(self, recipe):
-        sql = "INSERT INTO NYT_Scrapper (title, author, introduction, ingredients, steps, tips, nutrition) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        val = (
-            recipe[NYT_Scrapper.TITLE.value],
-            recipe[NYT_Scrapper.AUTHOR.value],
-            recipe[NYT_Scrapper.INTRODUCTION.value],
-            recipe[NYT_Scrapper.INGREDIENTS.value],
-            recipe[NYT_Scrapper.STEPS.value],
-            recipe[NYT_Scrapper.TIPS.value],
-            recipe[NYT_Scrapper.NUTRITION.value]
-        )
-        self.mycursor.execute(sql, val)
-        self.mydb.commit()
-        self.mycursor.close()
+        recipe_json = json.dumps(recipe)
+        title = recipe["Title"]
+        sql_query = "SELECT * FROM NYT_Scrapper WHERE JSON_EXTRACT(recipe_data, '$.Title') = %s"
+        value_to_search = title
+        self.mycursor.execute(sql_query, (value_to_search,))
+        results = self.mycursor.fetchall()
+        if not results:
+            print("no duplicates")
+            sql = "INSERT INTO NYT_Scrapper (recipe_data) VALUES (%s)"
+            val = (recipe_json,)
+            self.mycursor.execute(sql, val)
+            self.mydb.commit()
+
+            print(self.mycursor.rowcount, "record inserted.")
+            self.mydb.close()
+        else:
+            print("Not inserted, duplicate")
+
+    def get_recipes(self, start_row, end_row):
