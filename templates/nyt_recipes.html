@@ -1,0 +1,29 @@
+{% with page=page %}
+  {% include "header.html" %}
+{% endwith %}
+  <main class="pb-3" id="list-recipes">
+    <div class="container mb-2">
+        <div class="row">
+            <h1 class="mb-1 mt-3">New York Times Cooking Recipes</h1>
+        </div>
+        <div class="row">
+            {% for recipe in recipes %}
+            {% set title = recipe['recipe']['Title'] %}
+            <a href="{{ domain }}/nyt_recipe/{{ title }}?page={{ page }}" id="{{ recipe['id'] }}" class="card-container col-lg-6" name="recipe_item">
+                <div class="card mt-1 mb-2 p-3 pt-2">
+                    <h4 class="card-title lh-sm">{{ recipe['recipe']['Title'] }}</h4>
+                    <h6 class="card-subtitle">Calories per Serving: {{ recipe['recipe']['Nutrition']['calories'] }}</h6>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="container">
+            <div class="row">
+                {{ pagination.links }}
+            </div>
+        </div>
+    </div>
+  </main>
+{% with year=year %}
+  {% include "footer.html" %}
+{% endwith %}

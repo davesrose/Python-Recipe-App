@@ -1,0 +1,17 @@
+header {
+    background-color: rgba(22, 22, 23, 0.8);
+    background-size: cover;
+    .navbar, .navbar .container-fluid, .navbar .container-fluid .navbar-brand, .navbar-nav, .navbar-nav .nav-link.show {
+        color: #efefef;
+        --bs-nav-link-color: #efefef;
+        &:hover, &.nav-link:hover {
+            color: #fff !important;
+        }
+    }
+    .navbar-nav .nav-link.active {
+        color: #dedede;
+        &:hover {
+            color: #fff !important;
+        }
+    }
+}

@@ -1,6 +1,9 @@
-{% include "header.html" %}
+{% with page=page %}
+  {% include "header.html" %}
+{% endwith %}
   <main>
 
   </main>
-
-{% include "footer.html" %}
+{% with year=year %}
+  {% include "footer.html" %}
+{% endwith %}

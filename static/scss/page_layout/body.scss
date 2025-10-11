@@ -1,15 +1,233 @@
-@import 'https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap';
-
 html, body {
     height: 100%;
 }
 body {
     font-family: "Funnel Sans", sans-serif;
     font-weight: 200;
-    color: #444;
     display: flex;
     flex-direction: column;
+    padding: 0 !important;
+    color: #a0a0a1;
+    font-family: "Source Sans Pro", Helvetica, sans-serif !important;
+    font-size: 15pt;
+    font-weight: 300;
+    letter-spacing: 0.025em;
+    line-height: 1.65;
+}
+#list-recipes{
+    a {
+        &:nth-child(odd) {
+            padding-right:15px;
+        }
+        &:nth-child(even) {
+            padding-left:15px;
+        }
+        display: grid;
+        grid-auto-rows: auto; /* Allows rows to adjust height based on content */
+    }
+}
+.body-text {
+    color: #a0a0a1 !important;
+    font-family: "Source Sans Pro", Helvetica, sans-serif !important;
+    font-size: 15pt;
+    font-weight: 300;
+    letter-spacing: 0.025em;
+    line-height: 1.65;
 }
 main {
     flex: 1 0 auto;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#f2f4f4+0,edf6f7+100 */
+    background: linear-gradient(135deg, #f2f4f4 0%,#edf6f7 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    h1 {
+        color: #444;
+    }
+}
+a {
+    &.disabled {
+        color:#aaa !important;
+    }
+    &:hover {
+        color: #fff !important;
+    }
+}
+.dropdown-menu {
+    background: #898989;
+    .dropdown-item {
+        color: #efefef;
+        &:hover {
+            background: transparent;
+        }
+    }
+}
+.btn-primary-outline {
+}
+
+/* Type */
+
+body, input, select, textarea {
+    color: #a0a0a1;
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+    font-size: 15pt;
+    font-weight: 300;
+    letter-spacing: 0.025em;
+    line-height: 1.65;
+}
+
+    @media screen and (max-width: 1680px) {
+
+        body, input, select, textarea {
+            font-size: 11pt;
+        }
+
+    }
+
+a {
+    -moz-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
+    -webkit-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
+    -ms-transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
+    transition: color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
+    text-decoration: none;
+}
+
+    a:hover {
+        border-bottom-color: transparent;
+    }
+
+strong, b {
+    color: #ffffff;
+    font-weight: 300;
+}
+
+em, i {
+    font-style: italic;
+}
+
+p {
+    margin: 0 0 2em 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #888;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+    margin: 0 0 1em 0;
+    text-transform: uppercase;
+}
+
+    h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+h1 {
+    font-size: 1.75em;
+}
+
+h2 {
+    font-size: 1.25em;
+}
+
+h3 {
+    font-size: 1.1em;
+}
+
+h4 {
+    font-size: 1em;
+}
+
+h5 {
+    font-size: 0.9em;
+}
+
+h6 {
+    font-size: 0.7em;
+}
+
+@media screen and (max-width: 736px) {
+
+    h2 {
+        font-size: 1em;
+    }
+
+    h3 {
+        font-size: 0.9em;
+    }
+
+    h4 {
+        font-size: 0.8em;
+    }
+
+    h5 {
+        font-size: 0.7em;
+    }
+
+    h6 {
+        font-size: 0.7em;
+    }
+
+}
+
+sub {
+    font-size: 0.8em;
+    position: relative;
+    top: 0.5em;
+}
+
+sup {
+    font-size: 0.8em;
+    position: relative;
+    top: -0.5em;
+}
+
+blockquote {
+    border-left: 4px #36383c;
+    font-style: italic;
+    margin: 0 0 2em 0;
+    padding: 0.5em 0 0.5em 2em;
+}
+
+code {
+    background: #34363b;
+    border: solid 1px #36383c;
+    font-family: "Courier New", monospace;
+    font-size: 0.9em;
+    margin: 0 0.25em;
+    padding: 0.25em 0.65em;
+}
+
+pre {
+    -webkit-overflow-scrolling: touch;
+    font-family: "Courier New", monospace;
+    font-size: 0.9em;
+    margin: 0 0 2em 0;
+}
+
+    pre code {
+        display: block;
+        line-height: 1.75;
+        padding: 1em 1.5em;
+        overflow-x: auto;
+    }
+
+hr {
+    border: 0;
+    border-bottom: solid 1px #36383c;
+    margin: 2em 0;
+}
+
+hr.major {
+    margin: 3em 0;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
 }

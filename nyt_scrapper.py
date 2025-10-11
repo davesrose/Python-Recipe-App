@@ -36,39 +36,63 @@ class NYTScrapper:
 
         title = recipe["mainEntityOfPage"]["name"]
         recipe_id = recipe["mainEntityOfPage"]["@id"]
-        author = recipe["author"]["name"]
-        nutrition = recipe["nutrition"]
-
-        json_ingredients = recipe["recipeIngredient"]
-        # ==== check if there's different groups of ingredients
-
-        ingredient_scrape = soup.find(name="div", attrs={"class": re.compile("ingredients_ingredients*")})
-
-        # if one set of ingredients, there will be one ul vs a nested h3 and ul for multiple
-        ingredient_group_titles = ingredient_scrape.find_all(name="h3")
-        if ingredient_group_titles:
-            ingredients = {}
-            ingredient_uls = ingredient_scrape.select('ul ul')
-            for index in range(0, len(ingredient_group_titles)):
-                ingredients[ingredient_group_titles[index].getText()] = self.iterate_ingredients(ingredient_uls[index])
-
+        author = recipe["author"]
+        if isinstance(recipe["author"], list):
+            author_str = author[0]["name"]
+            for index in range(1, len(author)):
+                author_str += ", " + author[index]["name"]
+            print(author)
         else:
-            ingredients = json_ingredients
-
-        get_instructions = recipe["recipeInstructions"]
-        instructions = []
-        for instruction in get_instructions:
-            instructions.append(instruction["text"])
-
-        # ====== look in page for tips =====
-        tips_select = soup.find(name="ul", attrs={"class": re.compile("tips_tipsList*")})
-        if tips_select:
-            tips_list = tips_select.select('li')
-            tips = {}
-            for index in range(0,len(tips_list)):
-                tips[index] = tips_list[index].getText()
-        else:
+            author = author["name"]
+        description = recipe["description"]
+        categories = recipe["recipeCategory"]
+        if description.startswith("This is a no-recipe recipe"):
+            nutrition = None
+            ingredients = None
+            instructions = None
             tips = None
+            servings = None
+
+        else:
+            if "nutrition" in recipe:
+                nutrition = recipe["nutrition"]
+            else:
+                nutrition = None
+            if "recipeYield" in recipe:
+                servings = recipe["recipeYield"]
+            else:
+                servings = None
+
+            json_ingredients = recipe["recipeIngredient"]
+            # ==== check if there's different groups of ingredients
+
+            ingredient_scrape = soup.find(name="div", attrs={"class": re.compile("ingredients_ingredients*")})
+
+            # if one set of ingredients, there will be one ul vs a nested h3 and ul for multiple
+            ingredient_group_titles = ingredient_scrape.find_all(name="h3")
+            if ingredient_group_titles:
+                ingredients = {}
+                ingredient_uls = ingredient_scrape.select('ul ul')
+                for index in range(0, len(ingredient_group_titles)):
+                    ingredients[ingredient_group_titles[index].getText()] = self.iterate_ingredients(ingredient_uls[index])
+
+            else:
+                ingredients = json_ingredients
+
+            get_instructions = recipe["recipeInstructions"]
+            instructions = []
+            for instruction in get_instructions:
+                instructions.append(instruction["text"])
+
+            # ====== look in page for tips =====
+            tips_select = soup.find(name="ul", attrs={"class": re.compile("tips_tipsList*")})
+            if tips_select:
+                tips_list = tips_select.select('li')
+                tips = {}
+                for index in range(0,len(tips_list)):
+                    tips[index] = tips_list[index].getText()
+            else:
+                tips = None
 
         year = recipe["copyrightYear"]
 
@@ -76,14 +100,16 @@ class NYTScrapper:
             "Title": title,
             "Recipe ID": recipe_id,
             "Author": author,
+            "Description": description,
             "Ingredients": ingredients,
             "Instructions": instructions,
             "Tips": tips,
+            "Servings": servings,
             "Nutrition": nutrition,
+            "Categories": categories,
             "Year": year
         }
 
         post = Connector()
-        post.post_nyt_recipe(formatted_recipe)
 
-        return formatted_recipe
+        return post.post_nyt_recipe(formatted_recipe)
