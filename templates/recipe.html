@@ -37,6 +37,14 @@
                             <p>{{ step }}</p>
                         {% endfor %}
                     </div>
+                    <div id="tips">
+                        {% if results["Tips"] %}
+                            <h6>Tips</h6>
+                            {% for value in results["Tips"].values() %}
+                                <p><em>{{ value }}</em></p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                     <div id="year">
                         New York Times @ {{ results["Year"] }}
                     </div>

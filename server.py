@@ -40,8 +40,8 @@ def post_recipe():
             for item in recipe_list:
                 nyt_scrapper = NYTScrapper().get_recipe(item)
             message = "Recipes recorded."
-            return render_template("submit_url.html", message=message, offset=offset, per_page=per_page)
-    return render_template("submit_url.html", message=False, year=year, offset=offset, per_page=per_page)
+            return render_template("submit_url.html", message=message, page=page)
+    return render_template("submit_url.html", message=False, year=year, page=page)
 
 recipes = []
 def get_items(offset=0, per_page=40):
@@ -54,7 +54,7 @@ def nyt_recipes():
     per_page = recipes_per_page
     response = Connector().get_recipes(offset, per_page)
     session['page'] = page
-    id = request.form[""]
+    # id = request.form[""]
     recipes = []
     for item in response:
         recipes.append({
@@ -71,6 +71,7 @@ def nyt_recipe(title):
     page = session['page']
     results = Connector().get_recipe(title) # includes recipe id
     result = json.loads(results[0][1])
+    print(result)
     ingredients = result["Ingredients"]
     is_ingredient_list = isinstance(ingredients, list)
     return render_template("recipe.html", results=result, page=page, ingredients=ingredients, is_list=is_ingredient_list, domain=DOMAIN)
