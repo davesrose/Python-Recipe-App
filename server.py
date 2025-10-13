@@ -1,6 +1,6 @@
 import datetime
 from flask import Flask, render_template, request, session
-from flask_paginate import Pagination, get_page_args
+from flask_paginate import Pagination
 from nyt_scrapper import NYTScrapper
 from connector import Connector
 import json
@@ -12,7 +12,7 @@ app.secret_key = 'super_secret_key'
 
 year = datetime.datetime.now().year
 
-recipes_per_page = 40
+recipes_per_page = 30
 
 @app.route('/')
 def index():
@@ -49,12 +49,11 @@ def get_items(offset=0, per_page=40):
 
 @app.route('/nyt_recipes')
 def nyt_recipes():
-    page, per_page, offset = get_page_args(page_parameter="page", per_page_parameter="per_page",)
-    # per_page = request.args.get('per_page', 40, type=int)
-    per_page = recipes_per_page
+    per_page = request.args.get('per_page', 40, type=int)
+    page = request.args.get('page', 1, type=int)
+    offset = (page - 1) * per_page
     response = Connector().get_recipes(offset, per_page)
     session['page'] = page
-    # id = request.form[""]
     recipes = []
     for item in response:
         recipes.append({

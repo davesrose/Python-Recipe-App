@@ -47,8 +47,9 @@ class Connector:
 
 
 
+    # def get_recipes(self, offset, per_page):
     def get_recipes(self, offset, per_page):
-        sql_query = "SELECT * FROM NYT_Scrapper LIMIT %s OFFSET %s"
+        sql_query = "SELECT * FROM NYT_Scrapper ORDER BY id LIMIT %s OFFSET %s"
         self.mycursor.execute(sql_query, (per_page, int(offset)))
         results = self.mycursor.fetchall()
         return results
