@@ -26,17 +26,16 @@ class Connector:
         self.mycursor.execute(query)
         return self.mycursor.fetchone()[0]
 
-    def post_nyt_recipe(self, recipe):
+    def post_recipe(self, recipe, table):
         recipe_json = json.dumps(recipe)
-
         # ===== Check for duplicates =====
         title = recipe["Title"]
-        sql_query = "SELECT * FROM NYT_Scrapper WHERE JSON_EXTRACT(recipe_data, '$.Title') = %s"
+        sql_query = f"SELECT * FROM {table} WHERE JSON_EXTRACT(recipe_data, '$.Title') = %s"
         value_to_search = title
         self.mycursor.execute(sql_query, (value_to_search,))
         results = self.mycursor.fetchall()
         if not results:
-            sql = "INSERT INTO NYT_Scrapper (recipe_data) VALUES (%s)"
+            sql = f"INSERT INTO {table} (recipe_data) VALUES (%s)"
             val = (recipe_json,)
             self.mycursor.execute(sql, val)
             self.mydb.commit()
@@ -45,9 +44,6 @@ class Connector:
         else:
             return "not inserted"
 
-
-
-    # def get_recipes(self, offset, per_page):
     def get_recipes(self, offset, per_page):
         sql_query = "SELECT * FROM NYT_Scrapper ORDER BY id LIMIT %s OFFSET %s"
         self.mycursor.execute(sql_query, (per_page, int(offset)))
@@ -55,6 +51,7 @@ class Connector:
         return results
 
     def get_recipe(self, title):
+        print(title)
         print("query a recipe")
         sql_query = "SELECT * FROM NYT_Scrapper WHERE JSON_EXTRACT(recipe_data, '$.Title') = %s"
         value_to_search = title

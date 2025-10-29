@@ -112,4 +112,4 @@ class NYTScrapper:
 
         post = Connector()
 
-        return post.post_nyt_recipe(formatted_recipe)
+        return post.post_recipe(formatted_recipe, 'NYT_Scrapper')

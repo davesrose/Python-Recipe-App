@@ -5,7 +5,8 @@ from nyt_scrapper import NYTScrapper
 from connector import Connector
 import json
 
-DOMAIN="http://127.0.0.1:5000/"
+PORT="5003"
+DOMAIN=f"http://127.0.0.1:{PORT}"
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key'
@@ -70,11 +71,29 @@ def nyt_recipe(title):
     page = session['page']
     results = Connector().get_recipe(title) # includes recipe id
     result = json.loads(results[0][1])
-    print(result)
     ingredients = result["Ingredients"]
     is_ingredient_list = isinstance(ingredients, list)
     return render_template("recipe.html", results=result, page=page, ingredients=ingredients, is_list=is_ingredient_list, domain=DOMAIN)
 
+@app.route('/input_custom_recipe', methods=["GET", "POST"])
+def input_custom_recipe():
+    if request.method == 'POST':
+        title = request.form.get("title")
+        author = request.form.get("author")
+        url = request.form.get("recipe_url")
+        ingredients = request.form.get("ingredients").splitlines()
+        steps = request.form.get("steps").splitlines()
+        recipe_data = {
+            "Title": title,
+            "Recipe ID": url,
+            "Author": author,
+            "Ingredients": ingredients,
+            "Instructions": steps,
+        }
+        post = Connector().post_recipe(recipe_data, 'Custom_Recipes')
+        return render_template("input_custom_recipe.html")
+    return render_template("input_custom_recipe.html")
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=PORT)
     # app.run(host='0.0.0.0', port=5000) # for running on network (IE access IP:5000)

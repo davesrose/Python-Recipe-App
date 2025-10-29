@@ -1,0 +1,40 @@
+{% with page=page %}
+  {% include "header.html" %}
+{% endwith %}
+  <main>
+    <div class="container">
+        <div class="row">
+            <p id="description">
+                If you happen on a recipe on a website, you can copy and paste sections here.  Recipes will be stored in a database.
+            </p>
+        </div>
+        <div class="row">
+            <form class="card" action="/input_custom_recipe" method="post">
+                <div class="form-group">
+                    <label for="title">Input Recipe Title</label>
+                    <input type="text" id="title" class="form-control" name="title">
+                </div>
+                <div class="form-group">
+                    <label for="author">Input Author</label>
+                    <input type="text" id="author" class="form-control" name="author">
+                </div>
+                <div class="form-group">
+                    <label for="recipe_url">Input Recipe URL</label>
+                    <input type="text" id="recipe_url" class="form-control" name="recipe_url">
+                </div>
+                <div class="form-group">
+                    <label for="ingredients">Input Ingredients</label>
+                    <textarea class="form-control" id="ingredients" rows="10" name="ingredients"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="steps">Input Steps</label>
+                    <textarea class="form-control" id="steps" rows="10" name="steps"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+  </main>
+{% with year=year %}
+  {% include "footer.html" %}
+{% endwith %}
